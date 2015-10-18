@@ -68,8 +68,9 @@ struct priority_queue{
 				
 		// Traverse the tree randomly until an empty spot is found 
 		while(current_node->has_next()){
-			srand(time(NULL));
-			int des = rand()%1;
+			
+			int des = 0+(rand()%(int)(1-0+1));
+			cout<<"\n"<<"rand_int:"<<des<<"\n";
 			if (des==1){
 				current_node = current_node->next_node_L;
 			}
@@ -96,32 +97,71 @@ struct priority_queue{
 		else{	// Both nodes are free. Pick the left one then
 			current_node->next_node_L = temp;
 		}
-	}
-	
 
+		// Okay, we've found a spot for our node. But we now need to ensure that the prority of the parent is less than that of the new child
+		
+		tree_node *new_child = temp;
+		
+		// If parent has higher priority, switch nodes
+		while((new_child->T)<(new_child->parent->T)){
+			
+			// If the parent is on the left node of it's own parent
+			if((current_node->parent->next_node_L)==(new_child->parent)){
+				current_node->parent->next_node_L = new_child;
+			}	
+			else{
+				current_node->parent->next_node_R = new_child;
+			}
+			// Interchange parents
+			new_child->parent = current_node->parent;
+			current_node->parent = new_child;
+			
+			// Interchanging children	
+			tree_node * temp_L = new_child->next_node_L;
+			tree_node * temp_R = new_child->next_node_R;
+			if(current_node->next_node_L==new_child){
+				new_child->next_node_L = current_node;
+				new_child->next_node_R = current_node->next_node_R;
+			}
+			if(current_node->next_node_R==new_child){
+				new_child->next_node_R = current_node;
+				new_child->next_node_L = current_node->next_node_L;
+			}
+			current_node->next_node_L = temp_L;
+			current_node->next_node_R = temp_R;
+
+			// Update current_node and new_child
+			current_node = new_child->parent;
+		}	
+  
+	}
+
+	void print_tree(tree_node * start){
+
+		cout<<start->T<<endl;
+		if(start->next_node_L!=0) print_tree(start->next_node_L);
+		if(start->next_node_R!=0) print_tree(start->next_node_R);
+		cout<<endl;
+		return;
+		
+	}
 };
 
 
 int main(){
-
-	tree_node *qwe = new tree_node;
-	cout<<qwe->next_node_L<<endl;
-	cout<<qwe->next_node_R<<endl;
-	cout<<qwe->parent<<endl;
-	cout<<qwe->T<<endl;
-	cout<<qwe->gate<<endl;
-	cout<<qwe->value<<endl;
+	srand(time(NULL));
 
 	priority_queue asd;
 	asd.priority_queue_init();
 	cout<<asd.root->T<<endl;
 	asd.insert(0,123, 0);
-	asd.insert(1,234, 1);
+	asd.insert(3,234, 1);
 	asd.insert(4,123, 1);
 	asd.insert(8,234, 1);
 	asd.insert(9,123, 1);
 	asd.insert(16,234, 1);
-	
+	asd.insert(2,1000,0);
+	asd.print_tree(asd.root);
 
 
 
