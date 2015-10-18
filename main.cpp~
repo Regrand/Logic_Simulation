@@ -68,8 +68,7 @@ int main(int argc, char** argv) {
 	val=computeOutput(6,gates[6],adj_matrix,signal);
 	printf("%d \n",val);*/
 
-	// Begin simulation
-		
+	// Begin simulation		
 
 	return 0;
 }
