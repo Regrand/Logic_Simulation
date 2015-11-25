@@ -113,6 +113,7 @@ int main(int argc, char** argv) {
 		}
 	
 	print_signals(signal,NUM_NODES);
+	if(asd.root->T>times)
 	times=times+1;	//updating time 
 	}
 		
