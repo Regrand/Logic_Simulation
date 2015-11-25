@@ -27,7 +27,7 @@ int computeOutput(tree_node *p,vector<vector<int> > &adj_matrix, std::vector<int
 		for(i=0;i<N;i++){
 			if(adj_matrix[i][srno]==1){
 	//in case the value is don't care the output will also be don't care 				
-				if(signal[i]==-1){
+				if(signal[i]==-1 || out ==-1){
 				  out =-1;
 				  i=N;
 				  break;
@@ -42,7 +42,7 @@ int computeOutput(tree_node *p,vector<vector<int> > &adj_matrix, std::vector<int
 		out=0;
 		for(i=0;i<N;i++){
 			if(adj_matrix[i][srno]==1){
-				if(signal[i]==-1){
+				if(signal[i]==-1|| out ==-1){
 				  out =-1;
 				  i=N;
 				  break;
@@ -57,7 +57,7 @@ int computeOutput(tree_node *p,vector<vector<int> > &adj_matrix, std::vector<int
 		out=0;
 		for(i=0;i<N;i++){
 			if(adj_matrix[i][srno]==1){
-				if(signal[i]==-1){
+				if(signal[i]==-1|| out ==-1){
 				  out =-1;
 				  i=N;
 				  break;
@@ -72,7 +72,7 @@ int computeOutput(tree_node *p,vector<vector<int> > &adj_matrix, std::vector<int
 		out=1;
 		for(i=0;i<N;i++){
 			if(adj_matrix[i][srno]==1){
-				if(signal[i]==-1){
+				if(signal[i]==-1|| out ==-1){
 				  out =-1;
 				  i=N;
 				  break;
@@ -87,7 +87,7 @@ int computeOutput(tree_node *p,vector<vector<int> > &adj_matrix, std::vector<int
 		out=0;
 		for(i=0;i<N;i++){
 			if(adj_matrix[i][srno]==1){
-				if(signal[i]==-1){
+				if(signal[i]==-1 || out ==-1){
 				  out =-1;
 				  i=N;
 				  break;
@@ -103,7 +103,7 @@ int computeOutput(tree_node *p,vector<vector<int> > &adj_matrix, std::vector<int
 		out=1;
 		for(i=0;i<N;i++){
 			if(adj_matrix[i][srno]==1){
-				if(signal[i]==-1){
+				if(signal[i]==-1 || out ==-1){
 				  out =-1;
 				  i=N;
 				  break;
