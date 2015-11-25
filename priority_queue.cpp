@@ -9,6 +9,7 @@ Initial implementation: Min heap stored in a binary tree
 #include <math.h>
 #include <vector>
 #include <cstdlib>
+#include <string>
 
 using namespace std;
 
@@ -19,8 +20,9 @@ struct tree_node{
 	tree_node * next_node_R;
 	tree_node * parent;
 	int T;
-	int gate;
+	string gate;
 	int value;
+	int nodenum;
 	
 	// Construct for tree_node
 	tree_node(){
@@ -53,7 +55,7 @@ struct priority_queue{
 	}
 	
 	// Insert a transaction
-	void insert(int t, int out_gate, int out_val){
+	void insert(int t, string out_gate, int out_val,int nodenum){
 		
 		tree_node *current_node = root;
 
@@ -62,6 +64,7 @@ struct priority_queue{
 			root->T = t;
 			root->gate = out_gate;
 			root->value = out_val;
+			root->nodenum=nodenum;
 			return;
 		}
 		
@@ -87,6 +90,7 @@ struct priority_queue{
 		temp->T = t;
 		temp->gate = out_gate;
 		temp->value = out_val;
+		temp->nodenum=nodenum;
 			
 		if(current_node->next_node_L==0){
 			current_node->next_node_L = temp;
@@ -151,7 +155,7 @@ struct priority_queue{
 
 	void print_tree(tree_node * start){
 
-		cout<<start->T<<endl;
+		cout<<start->nodenum<<endl;
 		if(start->next_node_L!=0) print_tree(start->next_node_L);
 		if(start->next_node_R!=0) print_tree(start->next_node_R);
 		cout<<endl;
@@ -275,52 +279,4 @@ struct priority_queue{
 	
 	}
 };
-
-
-int main(){
-	srand(time(NULL));
-
-	priority_queue asd;
-	asd.priority_queue_init();
-	cout<<asd.root->T<<endl;
-	asd.insert(0,123, 0);
-	asd.insert(3,234, 1);
-	asd.insert(4,123, 1);
-	asd.insert(8,234, 1);
-	asd.insert(9,123, 1);
-	asd.insert(16,234, 1);
-	asd.insert(2,1000,0);
-	asd.print_tree(asd.root);
-
-	cout<<"Removing top element"<<endl;	
-	asd.remove();
-	asd.print_tree(asd.root);
-
-	cout<<"Removing top element"<<endl;	
-	asd.remove();
-	asd.print_tree(asd.root);
-
-	cout<<"Removing top element"<<endl;	
-	asd.remove();
-	asd.print_tree(asd.root);
-
-	cout<<"Removing top element"<<endl;	
-	asd.remove();
-	asd.print_tree(asd.root);
-
-	cout<<"Removing top element"<<endl;	
-	asd.remove();
-	asd.print_tree(asd.root);
-
-	cout<<"Removing top element"<<endl;	
-	asd.remove();
-	asd.print_tree(asd.root);
-
-	cout<<"Removing top element"<<endl;	
-	asd.remove();
-	asd.print_tree(asd.root);
-
-
-return 0;
-}
 
