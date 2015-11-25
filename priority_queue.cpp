@@ -122,13 +122,26 @@ struct priority_queue{
 			if(current_node->next_node_L==new_child){
 				new_child->next_node_L = current_node;
 				new_child->next_node_R = current_node->next_node_R;
+				if(new_child->next_node_R!=0){
+					new_child->next_node_R->parent = new_child;
+				}
 			}
 			if(current_node->next_node_R==new_child){
 				new_child->next_node_R = current_node;
 				new_child->next_node_L = current_node->next_node_L;
+				if(new_child->next_node_R!=0){
+					new_child->next_node_L->parent = new_child;
+				}
 			}
+			// Udate current node and its children 
 			current_node->next_node_L = temp_L;
 			current_node->next_node_R = temp_R;
+			if(current_node->next_node_L!=0){
+				current_node->next_node_L->parent = current_node;
+			}
+			if(current_node->next_node_R!=0){
+				current_node->next_node_R->parent = current_node;
+			}
 
 			// Update current_node and new_child
 			current_node = new_child->parent;
@@ -176,10 +189,11 @@ struct priority_queue{
 				else {
 					// Join with disjoint node at same level (calculated in prev iteration)
 					current_node->next_node_R = disjoint_node;
+					current_node->next_node_R->parent = current_node;
 				}
 					
-					current_node = current_node->next_node_L;
-					disjoint_node = temp_disjoint; 
+				current_node = current_node->next_node_L;
+				disjoint_node = temp_disjoint; 
 			}
 
 			else{
@@ -197,7 +211,7 @@ struct priority_queue{
 				else {
 					// Join with disjoint node at same level (calculated in prev iteration)
 					current_node->next_node_L = disjoint_node;
-					disjoint_node->parent = current_node;
+					current_node->next_node_L->parent = disjoint_node;
 				}
 				
 				// Shift up	
@@ -208,29 +222,27 @@ struct priority_queue{
 		}
 		
 		// Now that we have taken care of the cases where both children exist, we cover the patching cases (when one or no children exist)	
-			
-		// If the left node is empty 
-		if(current_node->next_node_L!=0){
-			
-			// If removing the root
-			if(current_node->parent==0){
-				root = current_node->next_node_L;
-				root->parent = 0;
+	
+		// If both nodes are empty
+		if((current_node->next_node_L==0)&&(current_node->next_node_R==0)){
+			// If removing the root, create new root 
+			if(first_in){
+				root = new tree_node;	// Alterntively set T=-1 fo the root if this doesn't work
 				return;
 			}
-			// Else patch node
+			// Else patch left node
 			else{
-				current_node->next_node_R = disjoint_node;
-				disjoint_node->parent = current_node;
+				current_node->next_node_L = disjoint_node;
+				current_node->next_node_L->parent = current_node;
 				return;
 			}
-		}				
+		}
 		
-		// If the right node is empty 
-		else if(current_node->next_node_R!=0){
+		// If the left node is empty 
+		else if(current_node->next_node_L==0){
 			
 			// If removing the root
-			if(current_node->parent==0){
+			if(first_in){
 				root = current_node->next_node_R;
 				root->parent = 0;
 				return;
@@ -238,22 +250,24 @@ struct priority_queue{
 			// Else patch node
 			else{
 				current_node->next_node_L = disjoint_node;
-				disjoint_node->parent = current_node;
+				current_node->next_node_L->parent = current_node;
 				return;
 			}
 		}				
-
-		// If both nodes are empty
-		else{
-			// If removing the root, create new root 
-			if(current_node->parent==0){
-				root = new tree_node;	// Alterntively set T=-1 fo the root if this doesn't work
+		
+		// If the right node is empty 
+		else if(current_node->next_node_R==0){
+			
+			// If removing the root
+			if(first_in){
+				root = current_node->next_node_L;
+				root->parent = 0;
 				return;
 			}
-			// Else patch left node
+			// Else patch node
 			else{
-				current_node->next_node_L = disjoint_node;
-				disjoint_node->parent = current_node;
+				current_node->next_node_R = disjoint_node;
+				current_node->next_node_R->parent = current_node;
 				return;
 			}
 		}				
@@ -276,6 +290,30 @@ int main(){
 	asd.insert(9,123, 1);
 	asd.insert(16,234, 1);
 	asd.insert(2,1000,0);
+	asd.print_tree(asd.root);
+
+	cout<<"Removing top element"<<endl;	
+	asd.remove();
+	asd.print_tree(asd.root);
+
+	cout<<"Removing top element"<<endl;	
+	asd.remove();
+	asd.print_tree(asd.root);
+
+	cout<<"Removing top element"<<endl;	
+	asd.remove();
+	asd.print_tree(asd.root);
+
+	cout<<"Removing top element"<<endl;	
+	asd.remove();
+	asd.print_tree(asd.root);
+
+	cout<<"Removing top element"<<endl;	
+	asd.remove();
+	asd.print_tree(asd.root);
+
+	cout<<"Removing top element"<<endl;	
+	asd.remove();
 	asd.print_tree(asd.root);
 
 	cout<<"Removing top element"<<endl;	
