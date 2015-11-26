@@ -73,7 +73,7 @@ struct priority_queue{
 		while(current_node->has_next()){
 			
 			int des = 0+(rand()%(int)(1-0+1));
-			cout<<"\n"<<"rand_int:"<<des<<"\n";
+			//cout<<"\n"<<"rand_int:"<<des<<"\n";
 			if (des==1){
 				current_node = current_node->next_node_L;
 			}
