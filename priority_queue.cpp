@@ -64,7 +64,7 @@ struct priority_queue{
 			root->T = t;
 			root->gate = out_gate;
 			root->value = out_val;
-			root->nodenum=nodenum;
+			root->nodenum = nodenum;
 			return;
 		}
 		
@@ -90,7 +90,7 @@ struct priority_queue{
 		temp->T = t;
 		temp->gate = out_gate;
 		temp->value = out_val;
-		temp->nodenum=nodenum;
+		temp->nodenum = nodenum;
 			
 		if(current_node->next_node_L==0){
 			current_node->next_node_L = temp;
