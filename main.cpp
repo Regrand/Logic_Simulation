@@ -9,6 +9,7 @@ CAD Project: Logic Simulation
 #include <math.h>
 #include <vector>
 #include "computeOutput.cpp"
+#include "write_vcd_file.cpp"
 
 using namespace std;
 
@@ -158,7 +159,7 @@ int main(int argc, char** argv) {
 			
 			for(int k=0;k<NUM_NODES;k++){
 				if (adj_matrix[asd.root->nodenum][k]==1){
-					tree_node *p;
+					tree_node *p = new tree_node();
 					p->gate	= gate_list[asd.root->nodenum][k];
 					p->nodenum=k;
 					val=computeOutput(p,adj_matrix,signal);
@@ -186,16 +187,27 @@ int main(int argc, char** argv) {
 	for(i=0;i<NUM_NODES;i++){
 		for(j=0;j<times;j++){
 			if(signalmem[j][i]==0)
-				cout<<"___|";		
+				cout<<"__";		
 			else if  (signalmem[j][i]==1)			
-				cout<<"****|";
+				cout<<"**";
 			else if  (signalmem[j][i]==-1)			
 				cout<<"X";
 		
 		}	
+		cout<<endl;
 		cout<<endl;	
 	}
+
+
+	for(i=0;i<NUM_NODES;i++){
+		for(j=0;j<times;j++){
+			cout<<signalmem[j][i];
+		}	
+		cout<<endl;	
+	}
+
 	
+	write_vcd_file(130, NUM_NODES, signalmem);
 	return 0;
 }
 	
