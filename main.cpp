@@ -200,7 +200,7 @@ int main(int argc, char** argv) {
 
 
 	for(i=0;i<NUM_NODES;i++){
-		for(j=0;j<times;j++){
+		for(j=0;j<130;j++){
 			cout<<signalmem[j][i];
 		}	
 		cout<<endl;	
