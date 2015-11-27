@@ -54,6 +54,9 @@ int main(int argc, char** argv) {
 
 	// Number of node
 	int NUM_NODES = 3;
+	
+	//total time for simulation
+	int t0=100;
 
 	//adjacency matrix
 	vector<vector<int> > adj_matrix(NUM_NODES, std::vector<int>(NUM_NODES));
@@ -73,7 +76,7 @@ int main(int argc, char** argv) {
 	//signal matrix to store the value at each point of time
 	vector<vector<int> > signalmem(130, std::vector<int>(NUM_NODES));
 	
-	for(int i=0;i<130; i++){
+	for(int i=0;i<=t0; i++){
 		for(int j=0; j<NUM_NODES; j++){
 			signalmem[i][j]=-1;
 		}
@@ -84,86 +87,42 @@ int main(int argc, char** argv) {
 	int i=0;
 	int j=0;
 
-	// Begin simulation
-		
-
-	/*srand(time(NULL));
-
-	priority_queue asd;
-	asd.priority_queue_init();
-	cout<<asd.root->T<<endl;
-	asd.insert(1,"xor", 1,3);
-	asd.insert(3,"nor", 1,2);
-	asd.insert(4,"nor", 1,1);
-	asd.insert(8,"or", 1,4);
-	asd.insert(2,"nand", 1,5);
-
-	asd.print_tree(asd.root);
-
-	adj_matrix[1][3]=1;
-	adj_matrix[2][3]=1;
-	adj_matrix[3][4]=1;
-	adj_matrix[3][5]=1;
-	adj_matrix[2][5]=1;
-	
 	srand(time(NULL));
 
 	priority_queue asd;
 	asd.priority_queue_init();
-	cout<<asd.root->T<<endl;
-	asd.insert(0,"none", 0, 0);
-	asd.insert(20,"none", 1, 0);
-	asd.insert(50, "none", 0, 0);
 
-	asd.print_tree(asd.root);
-
-	adj_matrix[0][2]=1;
-	adj_matrix[0][1]=1;
-	adj_matrix[1][2]=1;	
-
-	//creating signal vector before beginning the simulation
-	make_signal(asd.root,signal);
-	update_signal(NUM_NODES,signal,signalmem,0);*/
-
-	srand(time(NULL));
-
-	priority_queue asd;
-	asd.priority_queue_init();
-	//cout<<asd.root->T<<endl;
 	asd.insert(0,"none", 0, 0);
 	asd.insert(20,"none", 1,0);
 	asd.insert(50, "none", 0,0);
-
-	//asd.print_tree(asd.root);
 
 	adj_matrix[0][2]=1;
 	adj_matrix[0][1]=1;
 	adj_matrix[1][2]=1;
 
 	//in general each node can have multiple nodes sensitive to it
-	vector<vector<string> > gate_list(NUM_NODES, std::vector<string>(NUM_NODES));
-	gate_list[0][1] = "not";
-	gate_list[0][2] = "nand";
-	gate_list[1][2] = "nand";
+	vector<string> gate_list(NUM_NODES);	
+	gate_list[1] = "not";
+	gate_list[2] = "nand";
 	
 	//start simulation
-	while(asd.root->T!=-1){ //unless the priority queue gets empty
-
-		if(asd.root->T ==times){ //if the time = time for the evaluation of the signal 
+	times=0;
+	while(times<=t0){ 
+		//if the time = time for the evaluation of the signal
+		if(asd.root->T ==times){  
 			cout<<endl;			
 			cout<<"time is "<<times<<endl;
-			//val=computeOutput(asd.root,adj_matrix,signal);
 			cout<<"value changed is "<<asd.root->value<<" for node " <<asd.root->nodenum<<endl;
-			signal[asd.root->nodenum]=asd.root->value;	
-			print_signals(signal,NUM_NODES);
 			
+			signal[asd.root->nodenum]=asd.root->value;	
+
+			//calculating the future schedule for the nodes affected by current change
 			for(int k=0;k<NUM_NODES;k++){
 				if (adj_matrix[asd.root->nodenum][k]==1){
 					tree_node *p = new tree_node();
-					p->gate	= gate_list[asd.root->nodenum][k];
+					p->gate	= gate_list[k];
 					p->nodenum=k;
 					val=computeOutput(p,adj_matrix,signal);
-					//signal[k]=val;	
 					asd.insert(times+computeDelay(p),p->gate,val,k);		
 				}			
 			}	
@@ -175,16 +134,13 @@ int main(int argc, char** argv) {
 			//cout<<"nothing now"<<endl;
 		}
 
-	update_signal(NUM_NODES,signal,signalmem,times);	
+		update_signal(NUM_NODES,signal,signalmem,times);	
 
-	//print_signals(signal,NUM_NODES);
-	if(asd.root->T>times)
-	times=times+1;	//updating time 
+		if(asd.root->T>times || asd.root->T ==-1)
+		times=times+1;	//updating time only if there is no node with the same transaction time
 	}
 		
-	cout<<"total time for simulation is "<<times<<endl; //total simulation time
-	
-	for(i=0;i<NUM_NODES;i++){
+	/*for(i=0;i<NUM_NODES;i++){
 		for(j=0;j<times;j++){
 			if(signalmem[j][i]==0)
 				cout<<"__";		
@@ -196,8 +152,9 @@ int main(int argc, char** argv) {
 		}	
 		cout<<endl;
 		cout<<endl;	
-	}
+	}*/
 
+<<<<<<< HEAD:main.cpp
 
 	for(i=0;i<NUM_NODES;i++){
 		for(j=0;j<130;j++){
@@ -208,6 +165,10 @@ int main(int argc, char** argv) {
 
 	
 	write_vcd_file(130, NUM_NODES, signalmem);
+=======
+	//writing to a file supported by gtkwave
+	write_vcd_file(t0, NUM_NODES, signalmem,"propagation.vcd");
+>>>>>>> 3e0d02ad60a970cf6e2d9506c0061512ee9e15c4:main_propagation.cpp
 	return 0;
 }
 	

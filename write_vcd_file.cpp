@@ -6,11 +6,11 @@
 #include <string>
 using namespace std;
 
-void write_vcd_file (int simulation_time, int NUM_NODES, vector<vector<int> > &signalmem) {
+void write_vcd_file (int simulation_time, int NUM_NODES, vector<vector<int> > &signalmem,string name) {
 
 	
 	ofstream writefile;
-  	writefile.open ("example.vcd");
+  	writefile.open (name);
   	
 	writefile << "$timescale 1ps $end" <<endl;
 	writefile << "$scope module logic_simulation_project $end" <<endl;

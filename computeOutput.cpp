@@ -150,11 +150,11 @@ int computeDelay(tree_node *p){
 	}
 
 	else if(p->gate.compare("xor")==0){
-		out=10;
+		out=8;
 	}
 
 	else if(p->gate.compare("not")==0){
-		out=8;
+		out=6;
 	}
 
 	else{
